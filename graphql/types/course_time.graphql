@@ -1,4 +1,4 @@
-type CourseTime {
+type CourseTime @modelClass(class: "CourseTime") {
     day_of_week: DayOfWeek!
     period: CourseTimePeriod!
 }

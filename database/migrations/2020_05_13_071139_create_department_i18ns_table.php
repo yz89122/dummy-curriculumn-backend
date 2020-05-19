@@ -16,13 +16,13 @@ class CreateDepartmentI18nsTable extends Migration
         Schema::create('department_i18ns', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('department_id');
-            $table->string('code');
+            $table->string('locale');
             $table->text('text');
 
             $table->foreign('department_id')->references('id')->on('departments')
                 ->onUpdate('cascade')->onDelete('cascade');
 
-            $table->unique(['department_id', 'code']);
+            $table->unique(['department_id', 'locale']);
         });
     }
 

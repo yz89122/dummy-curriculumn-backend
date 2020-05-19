@@ -16,13 +16,13 @@ class CreateCourseNamesTable extends Migration
         Schema::create('course_names', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('course_template_id');
-            $table->string('code');
+            $table->string('locale');
             $table->text('text');
 
             $table->foreign('course_template_id')->references('id')->on('course_templates')
                 ->onUpdate('cascade')->onDelete('cascade');
 
-            $table->index(['course_template_id', 'code']);
+            $table->index(['course_template_id', 'locale']);
         });
     }
 

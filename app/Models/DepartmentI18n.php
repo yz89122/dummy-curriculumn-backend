@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class DepartmentI18n extends BaseModel
+class DepartmentI18n extends BaseI18n
 {
     /**
      * The table associated with the model.
@@ -18,7 +18,7 @@ class DepartmentI18n extends BaseModel
      */
     protected $fillable = [
         'department_id',
-        'code',
+        'locale',
         'text',
     ];
 

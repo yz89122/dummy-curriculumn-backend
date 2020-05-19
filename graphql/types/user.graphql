@@ -2,9 +2,9 @@ type User @modelClass(class: "User") {
     code: String!
     username: String!
     display_name: String!
-    administrator: Administrator
-    teacher: Teacher
-    student: Student
+    administrator: Administrator @hasOne(relation: "administrator")
+    teacher: Teacher @hasOne(relation: "teacher")
+    student: Student @hasOne(relation: "student")
     created_at: DateTimeTz
     updated_at: DateTimeTz
     deleted_at: DateTimeTz

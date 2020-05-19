@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class CourseName extends BaseModel
+class CourseName extends BaseI18n
 {
     /**
      * The table associated with the model.
@@ -18,7 +18,7 @@ class CourseName extends BaseModel
      */
     protected $fillable = [
         'course_template_id',
-        'code',
+        'locale',
         'text',
     ];
 

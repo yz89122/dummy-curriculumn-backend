@@ -1,4 +1,4 @@
-type Teacher {
+type Teacher @modelClass(class: "Teacher") {
     code: String!
     display_name: String!
     courses: [Course!]! @paginate(defaultCount: 10)
