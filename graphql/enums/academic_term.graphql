@@ -1,0 +1,6 @@
+enum AcademicTerm {
+    Fall
+    Spring
+    SummerFall
+    SummerSpring
+}

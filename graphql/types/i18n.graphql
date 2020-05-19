@@ -1,0 +1,4 @@
+type I18n {
+    locale: String!
+    text: String
+}

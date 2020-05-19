@@ -1,0 +1,7 @@
+type Administrator @modelClass(class: "Administrator") {
+    code: String!
+    display_name: String!
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
+}

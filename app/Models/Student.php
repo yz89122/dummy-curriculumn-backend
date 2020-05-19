@@ -24,6 +24,7 @@ class Student extends BaseModel
         'user_id',
         'department_id',
         'grade',
+        'code',
     ];
 
     /**

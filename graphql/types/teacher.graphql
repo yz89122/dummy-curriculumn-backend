@@ -1,0 +1,8 @@
+type Teacher {
+    code: String!
+    display_name: String!
+    courses: [Course!]! @paginate(defaultCount: 10)
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
+}

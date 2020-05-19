@@ -22,6 +22,7 @@ class Teacher extends BaseModel
      */
     protected $fillable = [
         'user_id',
+        'code',
     ];
 
     /**

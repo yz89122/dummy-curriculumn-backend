@@ -1,0 +1,7 @@
+type CourseTemplate @modelClass(class: "CourseTemplate"){
+    code: String!
+    i18n: [I18n!]!
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
+}

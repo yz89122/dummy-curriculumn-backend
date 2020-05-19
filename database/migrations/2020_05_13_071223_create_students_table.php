@@ -15,7 +15,8 @@ class CreateStudentsTable extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('code');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('department_id')->nullable();
             $table->enum('grade', ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate'])->nullable();
             $table->timestamps();
@@ -26,6 +27,7 @@ class CreateStudentsTable extends Migration
             $table->foreign('department_id')->references('id')->on('departments')
                 ->onUpdate('cascade')->onDelete('set null');
 
+            $table->unique('code');
             $table->unique('user_id');
             $table->index(['department_id', 'grade']);
             $table->index('grade');

@@ -1,0 +1,12 @@
+type Course @modelClass(class: "Course") {
+    code: String!
+    academic_year: Int!
+    academic_term: AcademicTerm!
+    course_template: CourseTemplate!
+    course_time: [CourseTime!]!
+    teachers: [Teacher!]! @paginate(defaultCount: 10)
+    students: [Student!]! @paginate(defaultCount: 10)
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
+}

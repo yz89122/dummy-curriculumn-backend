@@ -1,0 +1,9 @@
+type Department @modelClass(class: "Department") {
+    code: String!
+    i18n: [I18n!]!
+    college: College!
+    students: [Student!]! @paginate(defaultCount: 10)
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
+}

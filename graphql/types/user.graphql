@@ -1,0 +1,11 @@
+type User @modelClass(class: "User") {
+    code: String!
+    username: String!
+    display_name: String!
+    administrator: Administrator
+    teacher: Teacher
+    student: Student
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
+}

@@ -21,6 +21,7 @@ class Administrator extends BaseModel
      * @var array
      */
     protected $fillable = [
+        'code',
         'user_id',
     ];
 

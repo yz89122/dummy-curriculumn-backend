@@ -1,0 +1,4 @@
+type CourseTime {
+    day_of_week: DayOfWeek!
+    period: CourseTimePeriod!
+}
