@@ -13,3 +13,6 @@ type Query {
     users: [User!]! @paginate(defaultCount: 10)
     # user: User!
 }
+
+#import enums/*.graphql
+#import types/*.graphql
