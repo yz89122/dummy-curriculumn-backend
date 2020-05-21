@@ -39,12 +39,14 @@ return [
             'driver' => 'stack',
             'channels' => ['single'],
             'ignore_exceptions' => false,
+            'tap' => [App\Logging\Formatter::class],
         ],
 
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
             'level' => 'debug',
+            'tap' => [App\Logging\Formatter::class],
         ],
 
         'daily' => [
@@ -52,6 +54,7 @@ return [
             'path' => storage_path('logs/laravel.log'),
             'level' => 'debug',
             'days' => 14,
+            'tap' => [App\Logging\Formatter::class],
         ],
 
         'slack' => [
@@ -60,6 +63,7 @@ return [
             'username' => 'Laravel Log',
             'emoji' => ':boom:',
             'level' => 'critical',
+            'tap' => [App\Logging\Formatter::class],
         ],
 
         'papertrail' => [
@@ -70,6 +74,7 @@ return [
                 'host' => env('PAPERTRAIL_URL'),
                 'port' => env('PAPERTRAIL_PORT'),
             ],
+            'tap' => [App\Logging\Formatter::class],
         ],
 
         'stderr' => [
@@ -79,25 +84,30 @@ return [
             'with' => [
                 'stream' => 'php://stderr',
             ],
+            'tap' => [App\Logging\Formatter::class],
         ],
 
         'syslog' => [
             'driver' => 'syslog',
             'level' => 'debug',
+            'tap' => [App\Logging\Formatter::class],
         ],
 
         'errorlog' => [
             'driver' => 'errorlog',
             'level' => 'debug',
+            'tap' => [App\Logging\Formatter::class],
         ],
 
         'null' => [
             'driver' => 'monolog',
             'handler' => NullHandler::class,
+            'tap' => [App\Logging\Formatter::class],
         ],
 
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
+            'tap' => [App\Logging\Formatter::class],
         ],
     ],
 

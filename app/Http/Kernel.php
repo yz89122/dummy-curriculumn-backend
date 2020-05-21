@@ -14,6 +14,10 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
+        \App\Http\Middleware\LogRequestPath::class,
+        // \App\Http\Middleware\LogRequestBody::class,
+        // \App\Http\Middleware\LogResponseBody::class,
+        \App\Http\Middleware\HeaderRequestId::class,
         \App\Http\Middleware\TrustProxies::class,
         \Fruitcake\Cors\HandleCors::class,
         \App\Http\Middleware\CheckForMaintenanceMode::class,
