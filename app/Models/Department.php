@@ -58,4 +58,9 @@ class Department extends BaseModel
     {
         return $this->hasMany(DepartmentI18n::class, 'department_id', 'id');
     }
+
+    public function students()
+    {
+        return $this->hasMany(Student::class, 'department_id', 'id');
+    }
 }

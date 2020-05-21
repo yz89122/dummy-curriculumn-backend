@@ -22,6 +22,7 @@ class CreateCourseTimesTable extends Migration
             $table->foreign('course_id')->references('id')->on('courses')
                 ->onUpdate('cascade')->onDelete('cascade');
 
+            $table->unique(['course_id', 'day_of_week', 'period']);
             $table->index(['day_of_week', 'period']);
         });
     }

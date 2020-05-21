@@ -4,6 +4,13 @@ namespace App\Models;
 
 class Course extends BaseModel
 {
+    public const ACADEMIC_TERM = [
+        'Fall',
+        'Spring',
+        'SummerFall',
+        'SummerSpring',
+    ];
+
     /**
      * The table associated with the model.
      *

@@ -8,6 +8,15 @@ class Student extends BaseModel
 {
     use SoftDeletes;
 
+    public const GRADE = [
+        null,
+        'Freshman',
+        'Sophomore',
+        'Junior',
+        'Senior',
+        'Graduate',
+    ];
+
     /**
      * The table associated with the model.
      *

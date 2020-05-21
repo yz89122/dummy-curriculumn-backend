@@ -18,7 +18,7 @@ class CreateCoursesTable extends Migration
             $table->string('code');
             $table->unsignedBigInteger('course_template_id')->nullable();
             $table->integer('academic_year');
-            $table->enum('academic_term', ['Fall', 'Spring', 'Summer Fall', 'Summer Spring']);
+            $table->enum('academic_term', ['Fall', 'Spring', 'SummerFall', 'SummerSpring']);
             $table->timestamps();
             $table->softDeletes();
 
