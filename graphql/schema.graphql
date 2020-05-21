@@ -28,5 +28,10 @@ type Query {
     ): [Course!]! @paginate(defaultCount: 10)
 }
 
+type Mutation {
+    authenticate(username: String!, password: String!): Authorization!
+    refresh_authorization: Authorization! @middleware(checks: ["auth:api"])
+}
+
 #import enums/*.graphql
 #import types/*.graphql

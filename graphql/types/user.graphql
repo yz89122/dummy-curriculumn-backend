@@ -1,5 +1,4 @@
 type User @modelClass(class: "User") {
-    code: String!
     username: String!
     display_name: String!
     administrator: Administrator @hasOne(relation: "administrator")

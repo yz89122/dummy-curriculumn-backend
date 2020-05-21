@@ -16,7 +16,7 @@ class CreateCourseNamesTable extends Migration
         Schema::create('course_names', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('course_template_id');
-            $table->string('locale');
+            $table->string('locale', 8);
             $table->text('text');
 
             $table->foreign('course_template_id')->references('id')->on('course_templates')

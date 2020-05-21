@@ -16,7 +16,7 @@ class CreateCollegeI18nsTable extends Migration
         Schema::create('college_i18ns', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('college_id');
-            $table->string('locale');
+            $table->string('locale', 8);
             $table->text('text');
 
             $table->foreign('college_id')->references('id')->on('colleges')
