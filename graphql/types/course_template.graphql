@@ -1,6 +1,10 @@
 type CourseTemplate @modelClass(class: "CourseTemplate") {
     code: String!
     i18n: [I18n!]! @hasMany(relation: "i18n")
+    courses(
+        academic_year: Int @eq
+        academic_term: AcademicTerm @eq
+    ): [Course!]! @hasMany(relation: "courses", type: "paginator")
     created_at: DateTimeTz
     updated_at: DateTimeTz
     deleted_at: DateTimeTz

@@ -69,8 +69,6 @@ return [
 
     'schema' => [
         'register' => base_path('graphql/schema.graphql'),
-        'types' => base_path('graphql/types'),
-        'enums' => base_path('graphql/enums'),
     ],
 
     /*

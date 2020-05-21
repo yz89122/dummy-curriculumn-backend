@@ -25,8 +25,9 @@ class CreateCoursesTable extends Migration
             $table->foreign('course_template_id')->references('id')->on('course_templates')
                 ->onUpdate('cascade')->onDelete('set null');
 
+            $table->unique(['academic_year', 'academic_term', 'code']);
             $table->index('course_template_id');
-            $table->index(['academic_year', 'academic_term', 'code']);
+            $table->index(['academic_year', 'course_template_id', 'academic_term']);
         });
     }
 

@@ -14,6 +14,18 @@ type Query {
     user: User @auth
     college(code: String! @eq): College @find
     department(code: String! @eq): Department @find
+    student(code: String! @eq): Student @find
+    teacher(code: String! @eq): Teacher @find
+    course_template(code: String! @eq): CourseTemplate @find
+    course(
+        academic_year: Int! @eq
+        academic_term: AcademicTerm! @eq
+        code: String! @eq
+    ): Course @find
+    courses(
+        academic_year: Int! @eq
+        academic_term: AcademicTerm @eq
+    ): [Course!]! @paginate(defaultCount: 10)
 }
 
 #import enums/*.graphql

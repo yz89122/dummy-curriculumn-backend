@@ -1,6 +1,9 @@
 type Teacher @modelClass(class: "Teacher") {
     code: String!
     display_name: String!
+        @field(
+            resolver: "App\\GraphQL\\Resolvers\\TeacherResolver@display_name"
+        )
     courses: [Course!]! @paginate(defaultCount: 10)
     created_at: DateTimeTz
     updated_at: DateTimeTz

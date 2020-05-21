@@ -52,6 +52,11 @@ class CourseTemplate extends BaseModel
         return $this->hasMany(CourseName::class, 'course_template_id', 'id');
     }
 
+    public function i18n()
+    {
+        return $this->names();
+    }
+
     public function courses()
     {
         return $this->hasMany(Course::class, 'course_template_id', 'id');
