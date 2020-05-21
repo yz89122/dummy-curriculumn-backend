@@ -1,8 +1,12 @@
 type Student @modelClass(class: "Student") {
     code: String!
-    department: Department
+    department: Department!
     grade: Grade
+    registered_year: Int!
     display_name: String!
+        @field(
+            resolver: "App\\GraphQL\\Resolvers\\StudentResolver@display_name"
+        )
     courses: [Course!]! @paginate(defaultCount: 10)
     created_at: DateTimeTz
     updated_at: DateTimeTz

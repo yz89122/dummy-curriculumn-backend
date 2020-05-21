@@ -11,7 +11,9 @@ scalar DateTimeTz
 
 type Query {
     users: [User!]! @paginate(defaultCount: 10)
-    # user: User!
+    user: User @auth
+    college(code: String! @eq): College @find
+    department(code: String! @eq): Department @find
 }
 
 #import enums/*.graphql
