@@ -1,0 +1,4 @@
+input I18nInput {
+    locale: String!
+    text: String!
+}

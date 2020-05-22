@@ -2,11 +2,13 @@
 
 namespace App\GraphQL\Mutations;
 
-use Illuminate\Support\Facades\Auth;
+use App\Models\College;
+use App\Exceptions\NotFoundException;
+use Illuminate\Support\Facades\DB;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class RefreshAuthorization
+class DeleteCollege
 {
     /**
      * Return a value for the field.
@@ -19,9 +21,13 @@ class RefreshAuthorization
      */
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return [
-            'access_token' => Auth::refresh(),
-            'expires_in' => Auth::factory()->getTTL() * 60,
-        ];
+        return DB::transaction(function () use ($args) {
+            throw_unless(
+                $college = College::where('uuid', $args['uuid'])->first(),
+                NotFoundException::class,
+                'Not Found'
+            );
+            $college->delete();
+        });
     }
 }

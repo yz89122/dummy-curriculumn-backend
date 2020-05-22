@@ -2,8 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+
 class Course extends BaseModel
 {
+    use SoftDeletes;
+
     public const ACADEMIC_TERM = [
         'Fall',
         'Spring',
@@ -53,6 +59,20 @@ class Course extends BaseModel
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
     ];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function (Model $model) {
+            $model->uuid = Str::uuid()->toString();
+        });
+    }
 
     public function course_template()
     {

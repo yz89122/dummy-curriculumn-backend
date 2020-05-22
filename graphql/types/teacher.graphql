@@ -1,10 +1,11 @@
 type Teacher @modelClass(class: "Teacher") {
+    uuid: String!
     code: String!
     display_name: String!
         @field(
             resolver: "App\\GraphQL\\Resolvers\\TeacherResolver@display_name"
         )
-    courses: [Course!]! @paginate(defaultCount: 10)
+    courses: [Course!]! @paginate
     created_at: DateTimeTz
     updated_at: DateTimeTz
     deleted_at: DateTimeTz

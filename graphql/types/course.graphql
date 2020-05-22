@@ -1,21 +1,14 @@
 type Course @modelClass(class: "Course") {
+    uuid: String!
     code: String!
     academic_year: Int!
     academic_term: AcademicTerm!
     course_template: CourseTemplate! @belongsTo(relation: "course_template")
     course_times: [CourseTime!]! @hasMany(relation: "course_times")
     teachers: [Teacher!]!
-        @belongsToMany(
-            relation: "teachers"
-            type: "paginator"
-            defaultCount: 10
-        )
+        @belongsToMany(relation: "teachers", type: "paginator")
     students: [Student!]!
-        @belongsToMany(
-            relation: "students"
-            type: "paginator"
-            defaultCount: 10
-        )
+        @belongsToMany(relation: "students", type: "paginator")
     created_at: DateTimeTz
     updated_at: DateTimeTz
     deleted_at: DateTimeTz

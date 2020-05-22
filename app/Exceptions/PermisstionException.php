@@ -1,11 +1,8 @@
 <?php
 
-namespace App\GraphQL\Exceptions;
+namespace App\Exceptions;
 
-use Exception;
-use Nuwave\Lighthouse\Exceptions\RendersErrorsExtensions;
-
-class BaseException extends Exception implements RendersErrorsExtensions
+class PermissionException extends BaseGraphQLException
 {
     /**
      * Returns true when exception message is safe to be displayed to a client.
@@ -15,7 +12,7 @@ class BaseException extends Exception implements RendersErrorsExtensions
      */
     public function isClientSafe(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -28,7 +25,7 @@ class BaseException extends Exception implements RendersErrorsExtensions
      */
     public function getCategory(): string
     {
-        return 'unknown';
+        return 'permission';
     }
 
     /**

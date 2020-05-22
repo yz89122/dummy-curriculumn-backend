@@ -2,11 +2,14 @@
 
 namespace App\GraphQL\Mutations;
 
-use Illuminate\Support\Facades\Auth;
+use App\Models\College;
+use App\Models\CollegeI18n;
+use App\Exceptions\DuplicatedException;
+use Illuminate\Support\Facades\DB;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class RefreshAuthorization
+class CreateCollege
 {
     /**
      * Return a value for the field.
@@ -19,9 +22,18 @@ class RefreshAuthorization
      */
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return [
-            'access_token' => Auth::refresh(),
-            'expires_in' => Auth::factory()->getTTL() * 60,
-        ];
+        return DB::transaction(function () use ($rootValue, $args) {
+            throw_if(
+                College::where('code', $args['college']['code'])->count(),
+                DuplicatedException::class,
+                'The code provided is already in use'
+            );
+            $college = College::create(['code' => $args['college']['code']]);
+            $college->i18n()->saveMany(collect($args['college']['i18n'])->push([
+                'locale' => 'default',
+                'text' => $args['college']['default_text'],
+            ])->mapInto(CollegeI18n::class));
+            return $college;
+        });
     }
 }

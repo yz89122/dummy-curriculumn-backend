@@ -1,37 +1,40 @@
-"A date string with format `Y-m-d`, e.g. `2011-05-23`."
-scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
-
-"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
-scalar DateTime
-    @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
-
-"A datetime and timezone string in ISO 8601 format `Y-m-dTH:i:sO`, e.g. `2020-04-20T13:53:12+02:00`."
-scalar DateTimeTz
-    @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTimeTz")
+#import scalars/*.graphql
+#import enums/*.graphql
+#import types/*.graphql
+#import inputs/*.graphql
 
 type Query {
-    users: [User!]! @paginate(defaultCount: 10)
-    user: User @auth
-    college(code: String! @eq): College @find
-    department(code: String! @eq): Department @find
-    student(code: String! @eq): Student @find
-    teacher(code: String! @eq): Teacher @find
-    course_template(code: String! @eq): CourseTemplate @find
-    course(
-        academic_year: Int! @eq
-        academic_term: AcademicTerm! @eq
-        code: String! @eq
-    ): Course @find
+    me: User @auth
+    college(uuid: String! @eq): College @find @softDeletes
+    colleges: [College!]! @paginate
+    department(uuid: String! @eq): Department @find @softDeletes
+    departments: [Department!]! @paginate
+    student(uuid: String! @eq): Student @find @softDeletes
+    teacher(uuid: String! @eq): Teacher @find @softDeletes
+    course_template(uuid: String! @eq): CourseTemplate @find @softDeletes
+    course(uuid: String! @eq): Course @find @softDeletes
     courses(
         academic_year: Int! @eq
         academic_term: AcademicTerm @eq
-    ): [Course!]! @paginate(defaultCount: 10)
+    ): [Course!]! @paginate @softDeletes
+    user(uuid: String! @eq): User
+        @find
+        @middleware(checks: ["auth:api", "permission.administrator"])
+    users: [User!]!
+        @paginate
+        @middleware(checks: ["auth:api", "permission.administrator"])
 }
 
 type Mutation {
-    authenticate(username: String!, password: String!): Authorization!
+    # authentication
+    authenticate(credentials: UserCredentialsInput!): Authorization!
     refresh_authorization: Authorization! @middleware(checks: ["auth:api"])
-}
 
-#import enums/*.graphql
-#import types/*.graphql
+    # college
+    create_college(college: CollegeInput!): College!
+        @middleware(checks: ["auth:api", "permission.administrator"])
+    update_college(uuid: String!, college: CollegeInput!): College!
+        @middleware(checks: ["auth:api", "permission.administrator"])
+    delete_college(uuid: String!): Void
+        @middleware(checks: ["auth:api", "permission.administrator"])
+}

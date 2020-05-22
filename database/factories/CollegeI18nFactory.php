@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 
 $factory->define(CollegeI18n::class, function (Faker $faker) {
     return [
-        'locale' => 'en',
+        'locale' => 'default',
         'text' => $faker->country,
     ];
 });

@@ -15,6 +15,7 @@ class CreateCoursesTable extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid');
             $table->string('code');
             $table->unsignedBigInteger('course_template_id')->nullable();
             $table->integer('academic_year');
@@ -25,7 +26,8 @@ class CreateCoursesTable extends Migration
             $table->foreign('course_template_id')->references('id')->on('course_templates')
                 ->onUpdate('cascade')->onDelete('set null');
 
-            $table->unique(['academic_year', 'academic_term', 'code']);
+            $table->unique('uuid');
+            $table->unique(['academic_year', 'academic_term', 'code', 'deleted_at']);
             $table->index('course_template_id');
             $table->index(['academic_year', 'course_template_id', 'academic_term']);
         });

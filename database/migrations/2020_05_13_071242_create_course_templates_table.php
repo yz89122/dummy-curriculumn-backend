@@ -15,11 +15,13 @@ class CreateCourseTemplatesTable extends Migration
     {
         Schema::create('course_templates', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid');
             $table->string('code');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique('code');
+            $table->unique('uuid');
+            $table->unique(['code', 'deleted_at']);
         });
     }
 

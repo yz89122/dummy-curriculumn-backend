@@ -15,6 +15,7 @@ class CreateStudentsTable extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid');
             $table->string('code');
             $table->unsignedBigInteger('user_id');
             $table->unsignedInteger('registered_year');
@@ -28,7 +29,8 @@ class CreateStudentsTable extends Migration
             $table->foreign('department_id')->references('id')->on('departments')
                 ->onUpdate('cascade')->onDelete('restrict');
 
-            $table->unique('code');
+            $table->unique('uuid');
+            $table->unique(['code', 'deleted_at']);
             $table->unique('user_id');
             $table->index(['registered_year', 'department_id', 'grade']);
             $table->index(['department_id', 'grade']);

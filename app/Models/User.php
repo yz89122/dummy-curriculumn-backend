@@ -7,6 +7,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -46,9 +48,28 @@ class User extends Authenticatable implements JWTSubject
         'deleted_at' => 'datetime',
     ];
 
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function (Model $model) {
+            $model->uuid = Str::uuid()->toString();
+        });
+    }
+
     public function administrator()
     {
         return $this->hasOne(Administrator::class, 'user_id', 'id');
+    }
+
+    public function isAdministrator()
+    {
+        return !is_null($this->administrator);
     }
 
     public function teacher()
@@ -56,9 +77,19 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Teacher::class, 'user_id', 'id');
     }
 
+    public function isTeacher()
+    {
+        return !is_null($this->teacher);
+    }
+
     public function student()
     {
         return $this->hasOne(Student::class, 'user_id', 'id');
+    }
+
+    public function isStudent()
+    {
+        return !is_null($this->student);
     }
 
     /**

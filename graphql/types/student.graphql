@@ -1,4 +1,5 @@
 type Student @modelClass(class: "Student") {
+    uuid: String!
     code: String!
     department: Department!
     grade: Grade
@@ -7,7 +8,7 @@ type Student @modelClass(class: "Student") {
         @field(
             resolver: "App\\GraphQL\\Resolvers\\StudentResolver@display_name"
         )
-    courses: [Course!]! @paginate(defaultCount: 10)
+    courses: [Course!]! @paginate
     created_at: DateTimeTz
     updated_at: DateTimeTz
     deleted_at: DateTimeTz

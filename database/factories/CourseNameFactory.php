@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 
 $factory->define(CourseName::class, function (Faker $faker) {
     return [
-        'locale' => 'en',
+        'locale' => 'default',
         'text' => $faker->city,
     ];
 });

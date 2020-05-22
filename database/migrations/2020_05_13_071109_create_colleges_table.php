@@ -15,11 +15,13 @@ class CreateCollegesTable extends Migration
     {
         Schema::create('colleges', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid');
             $table->string('code');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique('code');
+            $table->unique('uuid');
+            $table->unique(['code', 'deleted_at']);
         });
     }
 

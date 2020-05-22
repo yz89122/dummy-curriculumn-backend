@@ -1,4 +1,5 @@
 type Administrator @modelClass(class: "Administrator") {
+    uuid: String!
     code: String!
     display_name: String!
     created_at: DateTimeTz

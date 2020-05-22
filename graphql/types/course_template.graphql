@@ -1,4 +1,5 @@
 type CourseTemplate @modelClass(class: "CourseTemplate") {
+    uuid: String!
     code: String!
     i18n: [I18n!]! @hasMany(relation: "i18n")
     courses(
