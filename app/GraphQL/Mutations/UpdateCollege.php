@@ -24,7 +24,7 @@ class UpdateCollege
     {
         return DB::transaction(function () use ($args) {
             throw_unless(
-                $college = College::where('uuid', $args['uuid'])->first(),
+                $college = College::where('uuid', $args['uuid'])->lockForUpdate()->first(),
                 NotFoundException::class,
                 'Not Found'
             );

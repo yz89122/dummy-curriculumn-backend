@@ -24,7 +24,7 @@ class CreateCollege
     {
         return DB::transaction(function () use ($rootValue, $args) {
             throw_if(
-                College::where('code', $args['college']['code'])->count(),
+                College::where('code', $args['college']['code'])->lockForUpdate()->count(),
                 DuplicatedException::class,
                 'The code provided is already in use'
             );
