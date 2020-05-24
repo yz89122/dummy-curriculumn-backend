@@ -6,8 +6,10 @@
 type Query {
     me: User @auth
     college(uuid: String! @eq): College @find @softDeletes
+    college_by_code(code: String! @eq): College @first
     colleges: [College!]! @paginate
     department(uuid: String! @eq): Department @find @softDeletes
+    department_by_code(code: String! @eq): Department @first
     departments: [Department!]! @paginate
     student(uuid: String! @eq): Student @find @softDeletes
     teacher(uuid: String! @eq): Teacher @find @softDeletes
