@@ -1,0 +1,6 @@
+input DepartmentInput {
+    code: String!
+    college_uuid: String!
+    i18n: [I18nInput!]
+    default_text: String!
+}

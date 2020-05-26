@@ -39,4 +39,12 @@ type Mutation {
         @middleware(checks: ["auth:api", "permission.administrator"])
     delete_college(uuid: String!): Void
         @middleware(checks: ["auth:api", "permission.administrator"])
+
+    # department
+    create_department(department: DepartmentInput!): Department!
+        @middleware(checks: ["auth:api", "permission.administrator"])
+    update_department(uuid: String!, department: DepartmentInput!): Department!
+        @middleware(checks: ["auth:api", "permission.administrator"])
+    delete_department(uuid: String!): Void
+        @middleware(checks: ["auth:api", "permission.administrator"])
 }
