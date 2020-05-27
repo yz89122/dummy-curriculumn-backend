@@ -1,0 +1,23 @@
+type Query {
+    me: User @auth
+    college(uuid: String! @eq): College @find @softDeletes
+    college_by_code(code: String! @eq): College @first
+    colleges: [College!]! @paginate
+    department(uuid: String! @eq): Department @find @softDeletes
+    department_by_code(code: String! @eq): Department @first
+    departments: [Department!]! @paginate
+    student(uuid: String! @eq): Student @find @softDeletes
+    teacher(uuid: String! @eq): Teacher @find @softDeletes
+    course_template(uuid: String! @eq): CourseTemplate @find @softDeletes
+    course(uuid: String! @eq): Course @find @softDeletes
+    courses(
+        academic_year: Int! @eq
+        academic_term: AcademicTerm @eq
+    ): [Course!]! @paginate @softDeletes
+    user(uuid: String! @eq): User
+        @find
+        @middleware(checks: ["auth:api", "permission.administrator"])
+    users: [User!]!
+        @paginate
+        @middleware(checks: ["auth:api", "permission.administrator"])
+}

@@ -2,49 +2,5 @@
 #import enums/*.graphql
 #import types/*.graphql
 #import inputs/*.graphql
-
-type Query {
-    me: User @auth
-    college(uuid: String! @eq): College @find @softDeletes
-    college_by_code(code: String! @eq): College @first
-    colleges: [College!]! @paginate
-    department(uuid: String! @eq): Department @find @softDeletes
-    department_by_code(code: String! @eq): Department @first
-    departments: [Department!]! @paginate
-    student(uuid: String! @eq): Student @find @softDeletes
-    teacher(uuid: String! @eq): Teacher @find @softDeletes
-    course_template(uuid: String! @eq): CourseTemplate @find @softDeletes
-    course(uuid: String! @eq): Course @find @softDeletes
-    courses(
-        academic_year: Int! @eq
-        academic_term: AcademicTerm @eq
-    ): [Course!]! @paginate @softDeletes
-    user(uuid: String! @eq): User
-        @find
-        @middleware(checks: ["auth:api", "permission.administrator"])
-    users: [User!]!
-        @paginate
-        @middleware(checks: ["auth:api", "permission.administrator"])
-}
-
-type Mutation {
-    # authentication
-    authenticate(credentials: UserCredentialsInput!): Authorization!
-    refresh_authorization: Authorization! @middleware(checks: ["auth:api"])
-
-    # college
-    create_college(college: CollegeInput!): College!
-        @middleware(checks: ["auth:api", "permission.administrator"])
-    update_college(uuid: String!, college: CollegeInput!): College!
-        @middleware(checks: ["auth:api", "permission.administrator"])
-    delete_college(uuid: String!): Void
-        @middleware(checks: ["auth:api", "permission.administrator"])
-
-    # department
-    create_department(department: DepartmentInput!): Department!
-        @middleware(checks: ["auth:api", "permission.administrator"])
-    update_department(uuid: String!, department: DepartmentInput!): Department!
-        @middleware(checks: ["auth:api", "permission.administrator"])
-    delete_department(uuid: String!): Void
-        @middleware(checks: ["auth:api", "permission.administrator"])
-}
+#import query.graphql
+#import mutation.graphql

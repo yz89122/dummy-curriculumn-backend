@@ -1,0 +1,34 @@
+type Mutation {
+    # authentication
+    authenticate(credentials: UserCredentialsInput!): Authorization!
+        @field(
+            resolver: "App\\GraphQL\\Mutations\\AuthorizationMutator@authenticate"
+        )
+    refresh_authorization: Authorization!
+        @field(
+            resolver: "App\\GraphQL\\Mutations\\AuthorizationMutator@refresh"
+        )
+        @middleware(checks: ["auth:api"])
+
+    # college
+    create_college(college: CollegeInput!): College!
+        @field(resolver: "App\\GraphQL\\Mutations\\CollegeMutator@create")
+        @middleware(checks: ["auth:api", "permission.administrator"])
+    update_college(uuid: String!, college: CollegeInput!): College!
+        @field(resolver: "App\\GraphQL\\Mutations\\CollegeMutator@update")
+        @middleware(checks: ["auth:api", "permission.administrator"])
+    delete_college(uuid: String!): Void
+        @field(resolver: "App\\GraphQL\\Mutations\\CollegeMutator@delete")
+        @middleware(checks: ["auth:api", "permission.administrator"])
+
+    # department
+    create_department(department: DepartmentInput!): Department!
+        @field(resolver: "App\\GraphQL\\Mutations\\DepartmentMutator@create")
+        @middleware(checks: ["auth:api", "permission.administrator"])
+    update_department(uuid: String!, department: DepartmentInput!): Department!
+        @field(resolver: "App\\GraphQL\\Mutations\\DepartmentMutator@update")
+        @middleware(checks: ["auth:api", "permission.administrator"])
+    delete_department(uuid: String!): Void
+        @field(resolver: "App\\GraphQL\\Mutations\\DepartmentMutator@delete")
+        @middleware(checks: ["auth:api", "permission.administrator"])
+}
