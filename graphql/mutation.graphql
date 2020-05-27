@@ -31,4 +31,15 @@ type Mutation {
     delete_department(uuid: String!): Void
         @field(resolver: "App\\GraphQL\\Mutations\\DepartmentMutator@delete")
         @middleware(checks: ["auth:api", "permission.administrator"])
+
+    # user
+    create_user(user: UserInput!): User!
+        @field(resolver: "App\\GraphQL\\Mutations\\UserMutator@create")
+        @middleware(checks: ["auth:api", "permission.administrator"])
+    update_user(uuid: String!, user: UserInput!): User!
+        @field(resolver: "App\\GraphQL\\Mutations\\UserMutator@update")
+        @middleware(checks: ["auth:api", "permission.administrator"])
+    delete_user(uuid: String!): Void
+        @field(resolver: "App\\GraphQL\\Mutations\\UserMutator@delete")
+        @middleware(checks: ["auth:api", "permission.administrator"])
 }
