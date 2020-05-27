@@ -31,7 +31,7 @@ class CreateStudentsTable extends Migration
 
             $table->unique('uuid');
             $table->unique(['code', 'deleted_at']);
-            $table->unique('user_id');
+            $table->unique(['user_id', 'deleted_at']);
             $table->index(['registered_year', 'department_id', 'grade']);
             $table->index(['department_id', 'grade']);
             $table->index('grade');
