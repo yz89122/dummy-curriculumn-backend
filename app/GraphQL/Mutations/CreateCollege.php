@@ -3,7 +3,7 @@
 namespace App\GraphQL\Mutations;
 
 use App\Models\College;
-use App\Models\CollegeI18n;
+use App\Models\I18n;
 use App\Exceptions\DuplicatedException;
 use Illuminate\Support\Facades\DB;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -32,7 +32,7 @@ class CreateCollege
             $college->i18n()->saveMany(collect($args['college']['i18n'])->push([
                 'locale' => 'default',
                 'text' => $args['college']['default_text'],
-            ])->mapInto(CollegeI18n::class));
+            ])->mapInto(I18n::class));
             return $college;
         });
     }

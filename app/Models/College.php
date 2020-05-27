@@ -61,6 +61,12 @@ class College extends BaseModel
         static::creating(function (Model $model) {
             $model->uuid = Str::uuid()->toString();
         });
+
+        static::deleted(function (Model $model) {
+            if ($model->isForceDeleting()) {
+                $model->i18n()->delete();
+            }
+        });
     }
 
     public function departments()
@@ -70,6 +76,6 @@ class College extends BaseModel
 
     public function i18n()
     {
-        return $this->hasMany(CollegeI18n::class, 'college_id', 'id');
+        return $this->morphMany(I18n::class, 'resource', 'resource_type', 'resource_id', 'id');
     }
 }

@@ -61,16 +61,17 @@ class CourseTemplate extends BaseModel
         static::creating(function (Model $model) {
             $model->uuid = Str::uuid()->toString();
         });
-    }
 
-    public function names()
-    {
-        return $this->hasMany(CourseName::class, 'course_template_id', 'id');
+        static::deleted(function (Model $model) {
+            if ($model->isForceDeleting()) {
+                $model->i18n()->delete();
+            }
+        });
     }
 
     public function i18n()
     {
-        return $this->names();
+        return $this->morphMany(I18n::class, 'resource', 'resource_type', 'resource_id', 'id');
     }
 
     public function courses()

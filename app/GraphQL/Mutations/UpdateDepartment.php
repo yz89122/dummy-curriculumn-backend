@@ -4,7 +4,7 @@ namespace App\GraphQL\Mutations;
 
 use App\Models\College;
 use App\Models\Department;
-use App\Models\DepartmentI18n;
+use App\Models\I18n;
 use App\Exceptions\NotFoundException;
 use Illuminate\Support\Facades\DB;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -41,7 +41,7 @@ class UpdateDepartment
             $department->i18n()->saveMany(collect($args['department']['i18n'])->push([
                 'locale' => 'default',
                 'text' => $args['department']['default_text'],
-            ])->mapInto(DepartmentI18n::class));
+            ])->mapInto(I18n::class));
             return $department;
         });
     }

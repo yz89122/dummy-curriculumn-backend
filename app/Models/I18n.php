@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
-class DepartmentI18n extends BaseI18n
+use Illuminate\Database\Eloquent\Model;
+
+class I18n extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'department_i18ns';
+    protected $table = 'i18ns';
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +19,8 @@ class DepartmentI18n extends BaseI18n
      * @var array
      */
     protected $fillable = [
-        'department_id',
+        'resource_type',
+        'resource_id',
         'locale',
         'text',
     ];
@@ -29,7 +32,10 @@ class DepartmentI18n extends BaseI18n
      */
     protected $hidden = [
         'id',
-        'department_id',
+        'resource_type',
+        'resource_id',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -39,4 +45,9 @@ class DepartmentI18n extends BaseI18n
      */
     protected $casts = [
     ];
+
+    public function i18n()
+    {
+        return $this->morphTo();
+    }
 }

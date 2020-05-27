@@ -1,4 +1,4 @@
-type I18n @modelClass(class: "BaseI18n") {
+type I18n @modelClass(class: "I18n") {
     locale: String!
     text: String
 }
