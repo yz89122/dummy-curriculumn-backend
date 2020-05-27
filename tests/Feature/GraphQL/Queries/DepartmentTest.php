@@ -17,71 +17,79 @@ class DepartmentTest extends TestCase
     {
         $college = factory(College::class)->create();
         $department = factory(Department::class)->create(['college_id' => $college->id]);
-        $this->graphQL('
-            query ($uuid: String!) {
-                department(uuid: $uuid) {
-                    uuid
-                    code
-                    i18n {
-                        locale
-                        text
-                    }
-                    college {
+
+        $this
+            ->graphQL('
+                query ($uuid: String!) {
+                    department(uuid: $uuid) {
                         uuid
+                        code
+                        i18n {
+                            locale
+                            text
+                        }
+                        college {
+                            uuid
+                        }
                     }
                 }
-            }
-        ', ['uuid' => $department->uuid])->assertJson([
-            'data' => [
-                'department' => [
-                    'uuid' => $department->uuid,
-                    'code' => $department->code,
-                    'i18n' => [
-                        [
-                            'locale' => 'default',
+            ', ['uuid' => $department->uuid])
+            ->assertOk()
+            ->assertJson([
+                'data' => [
+                    'department' => [
+                        'uuid' => $department->uuid,
+                        'code' => $department->code,
+                        'i18n' => [
+                            [
+                                'locale' => 'default',
+                            ],
+                        ],
+                        'college' => [
+                            'uuid' => $college->uuid,
                         ],
                     ],
-                    'college' => [
-                        'uuid' => $college->uuid,
-                    ],
                 ],
-            ],
-        ]);
+            ]);
     }
 
     public function testQueryDepartmentByCode()
     {
         $college = factory(College::class)->create();
         $department = factory(Department::class)->create(['college_id' => $college->id]);
-        $this->graphQL('
-            query ($code: String!) {
-                department: department_by_code(code: $code) {
-                    uuid
-                    code
-                    i18n {
-                        locale
-                        text
-                    }
-                    college {
+
+        $this
+            ->graphQL('
+                query ($code: String!) {
+                    department: department_by_code(code: $code) {
                         uuid
+                        code
+                        i18n {
+                            locale
+                            text
+                        }
+                        college {
+                            uuid
+                        }
                     }
                 }
-            }
-        ', ['code' => $department->code])->assertJson([
-            'data' => [
-                'department' => [
-                    'uuid' => $department->uuid,
-                    'code' => $department->code,
-                    'i18n' => [
-                        [
-                            'locale' => 'default',
+            ', ['code' => $department->code])
+            ->assertOk()
+            ->assertJson([
+                'data' => [
+                    'department' => [
+                        'uuid' => $department->uuid,
+                        'code' => $department->code,
+                        'i18n' => [
+                            [
+                                'locale' => 'default',
+                            ],
+                        ],
+                        'college' => [
+                            'uuid' => $college->uuid,
                         ],
                     ],
-                    'college' => [
-                        'uuid' => $college->uuid,
-                    ],
                 ],
-            ],
-        ]);
+            ]);
     }
 }

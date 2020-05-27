@@ -58,6 +58,8 @@ class CollegeTest extends TestCase
                     ],
                 ],
             ]);
+
+        $this->assertTrue(College::where('code', 'college')->exists());
     }
 
     public function testUpdateCollege()
@@ -99,6 +101,9 @@ class CollegeTest extends TestCase
                     ],
                 ],
             ]);
+
+        $college->refresh();
+        $this->assertEquals('updated_college', $college->code);
     }
 
     public function testDeleteCollege()

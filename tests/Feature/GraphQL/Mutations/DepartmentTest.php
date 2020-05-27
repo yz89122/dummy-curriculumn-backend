@@ -68,6 +68,8 @@ class DepartmentTest extends TestCase
                     ],
                 ],
             ]);
+
+        $this->assertTrue(Department::where('code', 'department')->exists());
     }
 
     public function testUpdateDepartment()
@@ -118,6 +120,9 @@ class DepartmentTest extends TestCase
                     ],
                 ],
             ]);
+
+        $department->refresh();
+        $this->assertEquals('updated_department', $department->code);
     }
 
     public function testDeleteDepartment()
