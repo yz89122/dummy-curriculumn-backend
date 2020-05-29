@@ -32,10 +32,11 @@ class Student extends BaseModel
      * @var array
      */
     protected $fillable = [
+        'code',
         'user_id',
         'department_id',
+        'registered_year',
         'grade',
-        'code',
     ];
 
     /**
@@ -45,6 +46,7 @@ class Student extends BaseModel
      */
     protected $hidden = [
         'id',
+        'user_id',
         'created_at',
         'updated_at',
         'deleted_at',
