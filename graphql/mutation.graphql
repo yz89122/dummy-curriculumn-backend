@@ -42,4 +42,40 @@ type Mutation {
     delete_user(uuid: String!): Void
         @field(resolver: "App\\GraphQL\\Mutations\\UserMutator@delete")
         @middleware(checks: ["auth:api", "permission.administrator"])
+
+    # administrator
+    create_administrator(administrator: AdministratorInput!): Administrator!
+        @field(resolver: "App\\GraphQL\\Mutations\\AdministratorMutator@create")
+        @middleware(checks: ["auth:api", "permission.administrator"])
+    update_administrator(
+        uuid: String!
+        administrator: AdministratorInput!
+    ): Administrator!
+        @field(resolver: "App\\GraphQL\\Mutations\\AdministratorMutator@update")
+        @middleware(checks: ["auth:api", "permission.administrator"])
+    delete_administrator(uuid: String!): Void
+        @field(resolver: "App\\GraphQL\\Mutations\\AdministratorMutator@delete")
+        @middleware(checks: ["auth:api", "permission.administrator"])
+
+    # teacher
+    create_teacher(teacher: TeacherInput!): Teacher!
+        @field(resolver: "App\\GraphQL\\Mutations\\TeacherMutator@create")
+        @middleware(checks: ["auth:api", "permission.administrator"])
+    update_teacher(uuid: String!, teacher: TeacherInput!): Teacher!
+        @field(resolver: "App\\GraphQL\\Mutations\\TeacherMutator@update")
+        @middleware(checks: ["auth:api", "permission.administrator"])
+    delete_teacher(uuid: String!): Void
+        @field(resolver: "App\\GraphQL\\Mutations\\TeacherMutator@delete")
+        @middleware(checks: ["auth:api", "permission.administrator"])
+
+    # student
+    create_student(student: StudentInput!): Student!
+        @field(resolver: "App\\GraphQL\\Mutations\\StudentMutator@create")
+        @middleware(checks: ["auth:api", "permission.administrator"])
+    update_student(uuid: String!, student: StudentInput!): Student!
+        @field(resolver: "App\\GraphQL\\Mutations\\StudentMutator@update")
+        @middleware(checks: ["auth:api", "permission.administrator"])
+    delete_student(uuid: String!): Void
+        @field(resolver: "App\\GraphQL\\Mutations\\StudentMutator@delete")
+        @middleware(checks: ["auth:api", "permission.administrator"])
 }

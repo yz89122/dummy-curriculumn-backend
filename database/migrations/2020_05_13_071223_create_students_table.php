@@ -17,7 +17,7 @@ class CreateStudentsTable extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->string('code');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedInteger('registered_year');
             $table->unsignedBigInteger('department_id');
             $table->enum('grade', ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate'])->nullable();
@@ -25,7 +25,7 @@ class CreateStudentsTable extends Migration
             $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users')
-                ->onUpdate('cascade')->onDelete('restrict');
+                ->onUpdate('cascade')->onDelete('set null');
             $table->foreign('department_id')->references('id')->on('departments')
                 ->onUpdate('cascade')->onDelete('restrict');
 

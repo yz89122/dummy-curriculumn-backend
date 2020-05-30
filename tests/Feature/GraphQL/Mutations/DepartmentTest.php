@@ -138,6 +138,6 @@ class DepartmentTest extends TestCase
                 }
             ', ['uuid' => $department->uuid]);
 
-        $this->assertFalse($department->exists());
+        $this->assertTrue($department->refresh()->trashed());
     }
 }

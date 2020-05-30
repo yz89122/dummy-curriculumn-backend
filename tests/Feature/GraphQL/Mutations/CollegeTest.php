@@ -118,6 +118,6 @@ class CollegeTest extends TestCase
                 }
             ', ['uuid' => $college->uuid]);
 
-        $this->assertFalse($college->exists());
+        $this->assertTrue($college->refresh()->trashed());
     }
 }

@@ -96,6 +96,6 @@ class UserTest extends TestCase
             ', ['uuid' => $user->uuid])
             ->assertOk();
 
-        $this->assertFalse(User::where('id', $user->id)->exists()); // $user->exists() is not working properly
+        $this->assertTrue($user->refresh()->trashed());
     }
 }

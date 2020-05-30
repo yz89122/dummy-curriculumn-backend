@@ -8,6 +8,7 @@ type Query {
     departments: [Department!]! @paginate
     student(uuid: String! @eq): Student @find @softDeletes
     teacher(uuid: String! @eq): Teacher @find @softDeletes
+    administrator(uuid: String! @eq): Administrator @find @softDeletes
     course_template(uuid: String! @eq): CourseTemplate @find @softDeletes
     course(uuid: String! @eq): Course @find @softDeletes
     courses(

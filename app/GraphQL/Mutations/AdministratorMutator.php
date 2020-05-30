@@ -2,16 +2,15 @@
 
 namespace App\GraphQL\Mutations;
 
-use App\Models\College;
-use App\Models\Department;
-use App\Models\I18n;
-use App\Exceptions\DuplicatedException;
-use App\Exceptions\NotFoundException;
-use Illuminate\Support\Facades\DB;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Illuminate\Support\Facades\DB;
+use App\Models\Administrator;
+use App\Models\User;
+use App\Exceptions\NotFoundException;
+use App\Exceptions\DuplicatedException;
 
-class DepartmentMutator
+class AdministratorMutator
 {
     /**
      * Return a value for the field.
@@ -24,24 +23,22 @@ class DepartmentMutator
      */
     public function create($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return DB::transaction(function () use ($rootValue, $args) {
-            $args_department = $args['department'];
+        return DB::transaction(function () use ($args) {
+            $admin_attrs = array_merge($args['administrator'], ['user_id' => null]);
             throw_if(
-                Department::where('code', $args_department['code'])->lockForUpdate()->exists(),
+                Administrator::where('code', $admin_attrs['code'])->lockForUpdate()->exists(),
                 DuplicatedException::class,
                 'The code provided is already in use'
             );
-            throw_unless(
-                $college = College::where('uuid', $args_department['college_uuid'])->lockForUpdate()->first(),
-                NotFoundException::class,
-                'The college was not found'
-            );
-            $department = Department::create(array_merge($args_department, ['college_id' => $college->id]));
-            $department->i18n()->saveMany(collect($args_department['i18n'])->push([
-                'locale' => 'default',
-                'text' => $args['department']['default_text'],
-            ])->mapInto(I18n::class));
-            return $department;
+            if (array_key_exists('user_uuid', $admin_attrs)) {
+                throw_unless(
+                    $user = User::where('uuid', $admin_attrs['user_uuid'])->lockForUpdate()->first(),
+                    NotFoundException::class,
+                    'User not found'
+                );
+                $admin_attrs['user_id'] = $user->id;
+            }
+            return Administrator::create($admin_attrs);
         });
     }
 
@@ -57,26 +54,22 @@ class DepartmentMutator
     public function update($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         return DB::transaction(function () use ($args) {
+            $admin_attrs = array_merge($args['administrator'], ['user_id' => null]);
             throw_unless(
-                $department = Department::where('uuid', $args['uuid'])->lockForUpdate()->first(),
+                $administrator = Administrator::where('uuid', $args['uuid'])->lockForUpdate()->first(),
                 NotFoundException::class,
-                'Department not found'
+                'The administrator was not found'
             );
-
-            $args_department = $args['department'];
-            throw_unless(
-                $college = College::where('uuid', $args_department['college_uuid'])->lockForUpdate()->first(),
-                NotFoundException::class,
-                'College Not Found'
-            );
-            $department->fill(array_merge($args_department, ['college_id' => $college->id]));
-            $department->save();
-            $department->i18n()->delete();
-            $department->i18n()->saveMany(collect($args_department['i18n'])->push([
-                'locale' => 'default',
-                'text' => $args['department']['default_text'],
-            ])->mapInto(I18n::class));
-            return $department;
+            if (array_key_exists('user_uuid', $admin_attrs)) {
+                throw_unless(
+                    $user = User::where('uuid', $admin_attrs['user_uuid'])->lockForUpdate()->first(),
+                    NotFoundException::class,
+                    'The user was not found'
+                );
+                $admin_attrs['user_id'] = $user->id;
+            }
+            $administrator->fill($admin_attrs)->save();
+            return $administrator;
         });
     }
 
@@ -93,12 +86,11 @@ class DepartmentMutator
     {
         return DB::transaction(function () use ($args) {
             throw_unless(
-                $department = Department::where('uuid', $args['uuid'])->lockForUpdate()->first(),
+                $administrator = Administrator::where('uuid', $args['uuid'])->lockForUpdate()->first(),
                 NotFoundException::class,
-                'Not Found'
+                'The administrator was not found'
             );
-
-            $department->delete();
+            $administrator->delete();
         });
     }
 }

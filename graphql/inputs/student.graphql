@@ -1,0 +1,7 @@
+input StudentInput {
+    code: String!
+    user_uuid: String
+    registered_year: Int!
+    department_uuid: String!
+    grade: Grade
+}

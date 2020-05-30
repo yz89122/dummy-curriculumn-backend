@@ -15,7 +15,8 @@ class TeacherResolver
     {
         SimpleBatchLoader::instance(User::class)->add($teacher->user_id);
         return new Deferred(function () use ($teacher) {
-            return SimpleBatchLoader::instance(User::class)->get($teacher->user_id)->display_name;
+            $user = SimpleBatchLoader::instance(User::class)->get($teacher->user_id);
+            return $user ? $user->display_name : null;
         });
     }
 }

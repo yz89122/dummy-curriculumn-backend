@@ -24,15 +24,16 @@ class CollegeMutator
     public function create($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         return DB::transaction(function () use ($rootValue, $args) {
+            $college_attrs = $args['college'];
             throw_if(
-                College::where('code', $args['college']['code'])->lockForUpdate()->count(),
+                College::where('code', $college_attrs['code'])->lockForUpdate()->count(),
                 DuplicatedException::class,
                 'The code provided is already in use'
             );
-            $college = College::create(['code' => $args['college']['code']]);
-            $college->i18n()->saveMany(collect($args['college']['i18n'])->push([
+            $college = College::create($college_attrs);
+            $college->i18n()->saveMany(collect($college_attrs['i18n'])->push([
                 'locale' => 'default',
-                'text' => $args['college']['default_text'],
+                'text' => $college_attrs['default_text'],
             ])->mapInto(I18n::class));
             return $college;
         });
@@ -50,17 +51,18 @@ class CollegeMutator
     public function update($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         return DB::transaction(function () use ($args) {
+            $college_attrs = $args['college'];
             throw_unless(
                 $college = College::where('uuid', $args['uuid'])->lockForUpdate()->first(),
                 NotFoundException::class,
                 'Not Found'
             );
-            $college->code = $args['college']['code'];
+            $college->fill($college_attrs);
             $college->save();
             $college->i18n()->delete();
-            $college->i18n()->saveMany(collect($args['college']['i18n'])->push([
+            $college->i18n()->saveMany(collect($college_attrs['i18n'])->push([
                 'locale' => 'default',
-                'text' => $args['college']['default_text'],
+                'text' => $college_attrs['default_text'],
             ])->mapInto(I18n::class));
             return $college;
         });

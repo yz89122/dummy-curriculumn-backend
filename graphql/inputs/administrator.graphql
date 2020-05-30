@@ -1,0 +1,4 @@
+input AdministratorInput {
+    code: String!
+    user_uuid: String
+}

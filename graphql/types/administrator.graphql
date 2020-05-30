@@ -1,7 +1,10 @@
 type Administrator @modelClass(class: "Administrator") {
     uuid: String!
     code: String!
-    display_name: String!
+    display_name: String
+        @field(
+            resolver: "App\\GraphQL\\Resolvers\\AdministratorResolver@display_name"
+        )
     created_at: DateTimeTz
     updated_at: DateTimeTz
     deleted_at: DateTimeTz

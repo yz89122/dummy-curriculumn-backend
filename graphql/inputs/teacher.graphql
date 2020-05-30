@@ -1,0 +1,4 @@
+input TeacherInput {
+    code: String!
+    user_uuid: String
+}
