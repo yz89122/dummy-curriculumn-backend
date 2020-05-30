@@ -4,15 +4,19 @@ namespace App\GraphQL;
 
 class SimpleBatchLoader
 {
-    protected static $instances = [];
-
     public static function instance(string $class, string $column = 'id')
     {
-        if (!is_null($instance = static::$instances[$class][$column] ?? null)) {
-            return $instance;
+        // ex: \App\GraphQL\SimpleBatchLoader:\App\Models\User,id
+        $abstract = static::class.':'.$class.','.$column;
+
+        // uses services container as context instead of global
+        if (!app()->bound($abstract)) {
+            app()->singleton($abstract, function () use ($class, $column) {
+                return new static($class, $column);
+            });
         }
 
-        return static::$instances[$class][$column] = new static($class, $column);
+        return app($abstract);
     }
 
     protected $class;
