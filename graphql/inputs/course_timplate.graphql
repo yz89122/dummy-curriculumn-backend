@@ -1,0 +1,5 @@
+input CourseTemplateInput {
+    code: String!
+    i18n: [I18nInput!]
+    default_text: String!
+}

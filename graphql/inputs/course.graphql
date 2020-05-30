@@ -1,0 +1,7 @@
+input CourseInput {
+    code: String!
+    academic_year: Int!
+    academic_term: AcademicTerm!
+    course_template_uuid: String!
+    course_times: [CourseTimeInput!]!
+}

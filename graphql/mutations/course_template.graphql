@@ -1,0 +1,14 @@
+type CourseTemplateOps {
+    create(course_template: CourseTemplateInput!): CourseTemplate!
+    update(
+        uuid: String!
+        course_template: CourseTemplateInput!
+    ): CourseTemplate!
+    delete(uuid: String!): Void
+}
+
+extend type Mutation {
+    course_template: CourseTemplateOps
+        @field(resolver: "App\\GraphQL\\Mutations\\CourseTemplateMutator")
+        @middleware(checks: ["auth:api", "permission:administrator"])
+}

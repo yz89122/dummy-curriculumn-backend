@@ -1,0 +1,4 @@
+input CourseTimeInput {
+    day_of_week: DayOfWeek!
+    period: CourseTimePeriod!
+}
