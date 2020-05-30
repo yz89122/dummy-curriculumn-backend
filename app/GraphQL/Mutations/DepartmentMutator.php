@@ -44,21 +44,21 @@ class DepartmentMutator
     public function create($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         return DB::transaction(function () use ($rootValue, $args) {
-            $args_department = $args['department'];
+            $department_attrs = array_merge($args['department'], ['i18n' => []]);
             throw_if(
-                Department::where('code', $args_department['code'])->lockForUpdate()->exists(),
+                Department::where('code', $department_attrs['code'])->lockForUpdate()->exists(),
                 DuplicatedException::class,
                 'The code provided is already in use'
             );
             throw_unless(
-                $college = College::where('uuid', $args_department['college_uuid'])->lockForUpdate()->first(),
+                $college = College::where('uuid', $department_attrs['college_uuid'])->lockForUpdate()->first(),
                 NotFoundException::class,
                 'The college was not found'
             );
-            $department = Department::create(array_merge($args_department, ['college_id' => $college->id]));
-            $department->i18n()->saveMany(collect($args_department['i18n'])->push([
+            $department = Department::create(array_merge($department_attrs, ['college_id' => $college->id]));
+            $department->i18n()->saveMany(collect($department_attrs['i18n'])->push([
                 'locale' => 'default',
-                'text' => $args['department']['default_text'],
+                'text' => $department_attrs['default_text'],
             ])->mapInto(I18n::class));
             return $department;
         });
@@ -76,24 +76,23 @@ class DepartmentMutator
     public function update($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         return DB::transaction(function () use ($args) {
+            $department_attrs = array_merge($args['department'], ['i18n' => []]);
             throw_unless(
                 $department = Department::where('uuid', $args['uuid'])->lockForUpdate()->first(),
                 NotFoundException::class,
                 'Department not found'
             );
-
-            $args_department = $args['department'];
             throw_unless(
-                $college = College::where('uuid', $args_department['college_uuid'])->lockForUpdate()->first(),
+                $college = College::where('uuid', $department_attrs['college_uuid'])->lockForUpdate()->first(),
                 NotFoundException::class,
                 'College Not Found'
             );
-            $department->fill(array_merge($args_department, ['college_id' => $college->id]));
+            $department->fill(array_merge($department_attrs, ['college_id' => $college->id]));
             $department->save();
             $department->i18n()->delete();
-            $department->i18n()->saveMany(collect($args_department['i18n'])->push([
+            $department->i18n()->saveMany(collect($department_attrs['i18n'])->push([
                 'locale' => 'default',
-                'text' => $args['department']['default_text'],
+                'text' => $department_attrs['default_text'],
             ])->mapInto(I18n::class));
             return $department;
         });

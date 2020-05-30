@@ -43,7 +43,7 @@ class CollegeMutator
     public function create($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         return DB::transaction(function () use ($rootValue, $args) {
-            $college_attrs = $args['college'];
+            $college_attrs = array_merge($args['college'], ['i18n' => []]);
             throw_if(
                 College::where('code', $college_attrs['code'])->lockForUpdate()->count(),
                 DuplicatedException::class,
@@ -70,7 +70,7 @@ class CollegeMutator
     public function update($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         return DB::transaction(function () use ($args) {
-            $college_attrs = $args['college'];
+            $college_attrs = array_merge($args['college'], ['i18n' => []]);
             throw_unless(
                 $college = College::where('uuid', $args['uuid'])->lockForUpdate()->first(),
                 NotFoundException::class,
