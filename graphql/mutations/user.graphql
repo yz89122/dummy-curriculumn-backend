@@ -7,5 +7,5 @@ type UserOps {
 extend type Mutation {
     user: UserOps
         @field(resolver: "App\\GraphQL\\Mutations\\UserMutator")
-        @middleware(checks: ["auth:api", "permission.administrator"])
+        @middleware(checks: ["auth:api", "permission:administrator"])
 }

@@ -7,5 +7,5 @@ type StudentOps {
 extend type Mutation {
     student: StudentOps
         @field(resolver: "App\\GraphQL\\Mutations\\StudentMutator")
-        @middleware(checks: ["auth:api", "permission.administrator"])
+        @middleware(checks: ["auth:api", "permission:administrator"])
 }
