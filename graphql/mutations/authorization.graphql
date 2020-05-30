@@ -1,0 +1,9 @@
+type AuthorizationOps {
+    authenticate(credentials: UserCredentialsInput!): Authorization!
+    refresh: Authorization! @middleware(checks: ["auth:api"])
+}
+
+extend type Mutation {
+    authorization: AuthorizationOps
+        @field(resolver: "App\\GraphQL\\Mutations\\AuthorizationMutator")
+}

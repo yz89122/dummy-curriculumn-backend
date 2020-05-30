@@ -3,4 +3,4 @@
 #import types/*.graphql
 #import inputs/*.graphql
 #import query.graphql
-#import mutation.graphql
+#import mutations/*.graphql

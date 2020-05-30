@@ -28,12 +28,14 @@ class CollegeTest extends TestCase
             ->actingAs($this->administrator)
             ->graphQL('
                 mutation ($college: CollegeInput!) {
-                    college: create_college(college: $college) {
-                        uuid
-                        code
-                        i18n {
-                            locale
-                            text
+                    college {
+                        create(college: $college) {
+                            uuid
+                            code
+                            i18n {
+                                locale
+                                text
+                            }
                         }
                     }
                 }
@@ -48,11 +50,13 @@ class CollegeTest extends TestCase
             ->assertJson([
                 'data' => [
                     'college' => [
-                        'code' => 'college',
-                        'i18n' => [
-                            [
-                                'locale' => 'default',
-                                'text' => 'College',
+                        'create' => [
+                            'code' => 'college',
+                            'i18n' => [
+                                [
+                                    'locale' => 'default',
+                                    'text' => 'College',
+                                ],
                             ],
                         ],
                     ],
@@ -70,12 +74,14 @@ class CollegeTest extends TestCase
             ->actingAs($this->administrator)
             ->graphQL('
                 mutation ($uuid: String!, $college: CollegeInput!) {
-                    college: update_college(uuid: $uuid, college: $college) {
-                        uuid
-                        code
-                        i18n {
-                            locale
-                            text
+                    college {
+                        update(uuid: $uuid, college: $college) {
+                            uuid
+                            code
+                            i18n {
+                                locale
+                                text
+                            }
                         }
                     }
                 }
@@ -91,11 +97,13 @@ class CollegeTest extends TestCase
             ->assertJson([
                 'data' => [
                     'college' => [
-                        'code' => 'updated_college',
-                        'i18n' => [
-                            [
-                                'locale' => 'default',
-                                'text' => 'Updated College',
+                        'update' => [
+                            'code' => 'updated_college',
+                            'i18n' => [
+                                [
+                                    'locale' => 'default',
+                                    'text' => 'Updated College',
+                                ],
                             ],
                         ],
                     ],
@@ -114,7 +122,9 @@ class CollegeTest extends TestCase
             ->actingAs($this->administrator)
             ->graphQL('
                 mutation ($uuid: String!) {
-                    delete_college(uuid: $uuid)
+                    college {
+                        delete(uuid: $uuid)
+                    }
                 }
             ', ['uuid' => $college->uuid]);
 

@@ -30,10 +30,12 @@ class AdministratorTest extends TestCase
             ->actingAs($this->administrator)
             ->graphQL('
                 mutation ($administrator: AdministratorInput!) {
-                    administrator: create_administrator(administrator: $administrator) {
-                        uuid
-                        code
-                        display_name
+                    administrator {
+                        create(administrator: $administrator) {
+                            uuid
+                            code
+                            display_name
+                        }
                     }
                 }
             ', [
@@ -46,8 +48,10 @@ class AdministratorTest extends TestCase
             ->assertJson([
                 'data' => [
                     'administrator' => [
-                        'code' => 'administrator',
-                        'display_name' => $user->display_name,
+                        'create' => [
+                            'code' => 'administrator',
+                            'display_name' => $user->display_name,
+                        ],
                     ],
                 ],
             ]);
@@ -65,10 +69,12 @@ class AdministratorTest extends TestCase
             ->actingAs($this->administrator)
             ->graphQL('
                 mutation ($uuid: String!, $administrator: AdministratorInput!) {
-                    administrator: update_administrator(uuid: $uuid, administrator: $administrator) {
-                        uuid
-                        code
-                        display_name
+                    administrator {
+                        update(uuid: $uuid, administrator: $administrator) {
+                            uuid
+                            code
+                            display_name
+                        }
                     }
                 }
             ', [
@@ -82,8 +88,10 @@ class AdministratorTest extends TestCase
             ->assertJson([
                 'data' => [
                     'administrator' => [
-                        'code' => 'updated_administrator',
-                        'display_name' => $new_user->display_name,
+                        'update' => [
+                            'code' => 'updated_administrator',
+                            'display_name' => $new_user->display_name,
+                        ],
                     ],
                 ],
             ]);
@@ -98,7 +106,9 @@ class AdministratorTest extends TestCase
             ->actingAs($this->administrator)
             ->graphQL('
                 mutation ($uuid: String!) {
-                    delete_administrator(uuid: $uuid)
+                    administrator {
+                        delete(uuid: $uuid)
+                    }
                 }
             ', [
                 'uuid' => $administrator->uuid,

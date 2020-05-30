@@ -28,9 +28,11 @@ class UserTest extends TestCase
             ->actingAs($this->administrator)
             ->graphQL('
                 mutation ($user: UserInput!) {
-                    user: create_user(user: $user) {
-                        username
-                        display_name
+                    user {
+                        create(user: $user) {
+                            username
+                            display_name
+                        }
                     }
                 }
             ', ['user' => ['username' => 'user', 'display_name' => 'User']])
@@ -38,8 +40,10 @@ class UserTest extends TestCase
             ->assertJson([
                 'data' => [
                     'user' => [
-                        'username' => 'user',
-                        'display_name' => 'User',
+                        'create' => [
+                            'username' => 'user',
+                            'display_name' => 'User',
+                        ],
                     ],
                 ],
             ]);
@@ -55,9 +59,11 @@ class UserTest extends TestCase
             ->actingAs($this->administrator)
             ->graphQL('
                 mutation ($uuid: String!, $user: UserInput!) {
-                    user: update_user(uuid: $uuid, user: $user) {
-                        username
-                        display_name
+                    user {
+                        update(uuid: $uuid, user: $user) {
+                            username
+                            display_name
+                        }
                     }
                 }
             ', [
@@ -72,8 +78,10 @@ class UserTest extends TestCase
             ->assertJson([
                 'data' => [
                     'user' => [
-                        'username' => 'updated_user',
-                        'display_name' => 'Updated User',
+                        'update' => [
+                            'username' => 'updated_user',
+                            'display_name' => 'Updated User',
+                        ],
                     ],
                 ],
             ]);
@@ -91,7 +99,9 @@ class UserTest extends TestCase
             ->actingAs($this->administrator)
             ->graphQL('
                 mutation ($uuid: String!) {
-                    delete_user(uuid: $uuid)
+                    user {
+                        delete(uuid: $uuid)
+                    }
                 }
             ', ['uuid' => $user->uuid])
             ->assertOk();

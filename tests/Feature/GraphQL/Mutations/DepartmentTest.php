@@ -31,15 +31,17 @@ class DepartmentTest extends TestCase
             ->actingAs($this->administrator)
             ->graphQL('
                 mutation ($department: DepartmentInput!) {
-                    department: create_department(department: $department) {
-                        uuid
-                        code
-                        i18n {
-                            locale
-                            text
-                        }
-                        college {
+                    department {
+                        create(department: $department) {
                             uuid
+                            code
+                            i18n {
+                                locale
+                                text
+                            }
+                            college {
+                                uuid
+                            }
                         }
                     }
                 }
@@ -55,14 +57,16 @@ class DepartmentTest extends TestCase
             ->assertJson([
                 'data' => [
                     'department' => [
-                        'code' => 'department',
-                        'college' => [
-                            'uuid' => $college->uuid,
-                        ],
-                        'i18n' => [
-                            [
-                                'locale' => 'default',
-                                'text' => 'Department',
+                        'create' => [
+                            'code' => 'department',
+                            'college' => [
+                                'uuid' => $college->uuid,
+                            ],
+                            'i18n' => [
+                                [
+                                    'locale' => 'default',
+                                    'text' => 'Department',
+                                ],
                             ],
                         ],
                     ],
@@ -82,15 +86,17 @@ class DepartmentTest extends TestCase
             ->actingAs($this->administrator)
             ->graphQL('
                 mutation ($uuid: String!, $department: DepartmentInput!) {
-                    department: update_department(uuid: $uuid, department: $department) {
-                        uuid
-                        code
-                        i18n {
-                            locale
-                            text
-                        }
-                        college {
+                    department {
+                        update(uuid: $uuid, department: $department) {
                             uuid
+                            code
+                            i18n {
+                                locale
+                                text
+                            }
+                            college {
+                                uuid
+                            }
                         }
                     }
                 }
@@ -107,14 +113,16 @@ class DepartmentTest extends TestCase
             ->assertJson([
                 'data' => [
                     'department' => [
-                        'code' => 'updated_department',
-                        'college' => [
-                            'uuid' => $new_college->uuid,
-                        ],
-                        'i18n' => [
-                            [
-                                'locale' => 'default',
-                                'text' => 'Updated Department',
+                        'update' => [
+                            'code' => 'updated_department',
+                            'college' => [
+                                'uuid' => $new_college->uuid,
+                            ],
+                            'i18n' => [
+                                [
+                                    'locale' => 'default',
+                                    'text' => 'Updated Department',
+                                ],
                             ],
                         ],
                     ],
@@ -134,7 +142,9 @@ class DepartmentTest extends TestCase
             ->actingAs($this->administrator)
             ->graphQL('
                 mutation ($uuid: String!) {
-                    delete_department(uuid: $uuid)
+                    department {
+                        delete(uuid: $uuid)
+                    }
                 }
             ', ['uuid' => $department->uuid]);
 

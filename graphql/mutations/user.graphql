@@ -1,0 +1,11 @@
+type UserOps {
+    create(user: UserInput!): User!
+    update(uuid: String!, user: UserInput!): User!
+    delete(uuid: String!): Void
+}
+
+extend type Mutation {
+    user: UserOps
+        @field(resolver: "App\\GraphQL\\Mutations\\UserMutator")
+        @middleware(checks: ["auth:api", "permission.administrator"])
+}

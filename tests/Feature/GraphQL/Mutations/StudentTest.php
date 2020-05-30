@@ -34,14 +34,16 @@ class StudentTest extends TestCase
             ->actingAs($this->administrator)
             ->graphQL('
                 mutation ($student: StudentInput!) {
-                    student: create_student(student: $student) {
-                        uuid
-                        code
-                        display_name
-                        registered_year
-                        grade
-                        department {
+                    student {
+                        create(student: $student) {
                             uuid
+                            code
+                            display_name
+                            registered_year
+                            grade
+                            department {
+                                uuid
+                            }
                         }
                     }
                 }
@@ -58,12 +60,14 @@ class StudentTest extends TestCase
             ->assertJson([
                 'data' => [
                     'student' => [
-                        'code' => 'student',
-                        'display_name' => $user->display_name,
-                        'registered_year' => $year,
-                        'grade' => 'Freshman',
-                        'department' => [
-                            'uuid' => $department->uuid,
+                        'create' => [
+                            'code' => 'student',
+                            'display_name' => $user->display_name,
+                            'registered_year' => $year,
+                            'grade' => 'Freshman',
+                            'department' => [
+                                'uuid' => $department->uuid,
+                            ],
                         ],
                     ],
                 ],
@@ -85,14 +89,16 @@ class StudentTest extends TestCase
             ->actingAs($this->administrator)
             ->graphQL('
                 mutation ($uuid: String!, $student: StudentInput!) {
-                    student: update_student(uuid: $uuid, student: $student) {
-                        uuid
-                        code
-                        display_name
-                        registered_year
-                        grade
-                        department {
+                    student {
+                        update(uuid: $uuid, student: $student) {
                             uuid
+                            code
+                            display_name
+                            registered_year
+                            grade
+                            department {
+                                uuid
+                            }
                         }
                     }
                 }
@@ -110,12 +116,14 @@ class StudentTest extends TestCase
             ->assertJson([
                 'data' => [
                     'student' => [
-                        'code' => 'student',
-                        'display_name' => $new_user->display_name,
-                        'registered_year' => $year,
-                        'grade' => $grade,
-                        'department' => [
-                            'uuid' => $new_department->uuid,
+                        'update' => [
+                            'code' => 'student',
+                            'display_name' => $new_user->display_name,
+                            'registered_year' => $year,
+                            'grade' => $grade,
+                            'department' => [
+                                'uuid' => $new_department->uuid,
+                            ],
                         ],
                     ],
                 ],
@@ -133,7 +141,9 @@ class StudentTest extends TestCase
             ->actingAs($this->administrator)
             ->graphQL('
                 mutation ($uuid: String!) {
-                    delete_student(uuid: $uuid)
+                    student {
+                        delete(uuid: $uuid)
+                    }
                 }
             ', [
                 'uuid' => $student->uuid,

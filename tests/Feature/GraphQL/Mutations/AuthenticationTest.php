@@ -26,9 +26,11 @@ class AuthenticationTest extends TestCase
         $this
             ->graphQL('
                 mutation ($credentials: UserCredentialsInput!) {
-                    authorization: authenticate(credentials: $credentials) {
-                        access_token
-                        expires_in
+                    authorization {
+                        authenticate(credentials: $credentials) {
+                            access_token
+                            expires_in
+                        }
                     }
                 }
             ', [
@@ -41,8 +43,10 @@ class AuthenticationTest extends TestCase
             ->assertJsonStructure([
                 'data' => [
                     'authorization' => [
-                        'access_token',
-                        'expires_in',
+                        'authenticate' => [
+                            'access_token',
+                            'expires_in',
+                        ],
                     ],
                 ],
             ]);
@@ -58,9 +62,11 @@ class AuthenticationTest extends TestCase
                 [
                     'query' => '
                         mutation {
-                            authorization: refresh_authorization {
-                                access_token
-                                expires_in
+                            authorization {
+                                refresh {
+                                    access_token
+                                    expires_in
+                                }
                             }
                         }
                     ',
@@ -76,8 +82,10 @@ class AuthenticationTest extends TestCase
             ->assertJsonStructure([
                 'data' => [
                     'authorization' => [
-                        'access_token',
-                        'expires_in',
+                        'refresh' => [
+                            'access_token',
+                            'expires_in',
+                        ],
                     ],
                 ],
             ]);

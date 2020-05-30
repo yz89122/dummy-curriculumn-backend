@@ -30,10 +30,12 @@ class TeacherTest extends TestCase
             ->actingAs($this->administrator)
             ->graphQL('
                 mutation ($teacher: TeacherInput!) {
-                    teacher: create_teacher(teacher: $teacher) {
-                        uuid
-                        code
-                        display_name
+                    teacher {
+                        create(teacher: $teacher) {
+                            uuid
+                            code
+                            display_name
+                        }
                     }
                 }
             ', [
@@ -46,8 +48,10 @@ class TeacherTest extends TestCase
             ->assertJson([
                 'data' => [
                     'teacher' => [
-                        'code' => 'teacher',
-                        'display_name' => $user->display_name,
+                        'create' => [
+                            'code' => 'teacher',
+                            'display_name' => $user->display_name,
+                        ],
                     ],
                 ],
             ]);
@@ -65,10 +69,12 @@ class TeacherTest extends TestCase
             ->actingAs($this->administrator)
             ->graphQL('
                 mutation ($uuid: String!, $teacher: TeacherInput!) {
-                    teacher: update_teacher(uuid: $uuid, teacher: $teacher) {
-                        uuid
-                        code
-                        display_name
+                    teacher {
+                        update(uuid: $uuid, teacher: $teacher) {
+                            uuid
+                            code
+                            display_name
+                        }
                     }
                 }
             ', [
@@ -82,8 +88,10 @@ class TeacherTest extends TestCase
             ->assertJson([
                 'data' => [
                     'teacher' => [
-                        'code' => 'updated_teacher',
-                        'display_name' => $new_user->display_name,
+                        'update' => [
+                            'code' => 'updated_teacher',
+                            'display_name' => $new_user->display_name,
+                        ],
                     ],
                 ],
             ]);
@@ -98,7 +106,9 @@ class TeacherTest extends TestCase
             ->actingAs($this->administrator)
             ->graphQL('
                 mutation ($uuid: String!) {
-                    delete_teacher(uuid: $uuid)
+                    teacher {
+                        delete(uuid: $uuid)
+                    }
                 }
             ', [
                 'uuid' => $teacher->uuid,
