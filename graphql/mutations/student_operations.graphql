@@ -1,0 +1,9 @@
+type StudentOperations {
+    select(course_code: String!): Void
+}
+
+extend type Mutation {
+    student_operations: StudentOperations
+        @field(resolver: "App\\GraphQL\\Mutations\\StudentOperationsMutator")
+        @middleware(checks: ["auth:api", "permission:student"])
+}

@@ -233,4 +233,7 @@ return [
         'length' => env('APP_REQUEST_ID_LENGTH', 11),
     ],
 
+    'academic_year' => env('ACADEMY_YEAR', now()->year),
+    'academic_term' => env('ACADEMY_TERM', 'Fall'),
+
 ];
