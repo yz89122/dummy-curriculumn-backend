@@ -229,4 +229,8 @@ return [
 
     ],
 
+    'request_id' => [
+        'length' => env('APP_REQUEST_ID_LENGTH', 11),
+    ],
+
 ];
