@@ -4,4 +4,5 @@ input CourseInput {
     academic_term: AcademicTerm!
     course_template_uuid: String!
     course_times: [CourseTimeInput!]!
+    capacity: Int!
 }

@@ -32,6 +32,7 @@ class Course extends BaseModel
     protected $fillable = [
         'code',
         'course_template_id',
+        'capacity',
         'academic_year',
         'academic_term',
     ];

@@ -11,5 +11,6 @@ $factory->define(Course::class, function (Faker $faker) {
         'code' => Str::random(5),
         'academic_year' => now()->year,
         'academic_term' => collect(Course::ACADEMIC_TERM)->random(),
+        'capacity' => rand(20, 100),
     ];
 });

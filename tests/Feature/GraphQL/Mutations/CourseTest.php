@@ -37,6 +37,7 @@ class CourseTest extends TestCase
                             code
                             academic_year
                             academic_term
+                            capacity
                             course_template {
                                 uuid
                             }
@@ -63,6 +64,7 @@ class CourseTest extends TestCase
                             'period' => '_2',
                         ],
                     ],
+                    'capacity' => $capacity = 1,
                 ],
             ])
             ->assertOk()
@@ -77,6 +79,7 @@ class CourseTest extends TestCase
                             'academic_year' => $year,
                             'academic_term' => $term,
                             'course_times' => $course_times,
+                            'capacity' => $capacity,
                         ],
                     ],
                 ],
@@ -103,6 +106,7 @@ class CourseTest extends TestCase
                             code
                             academic_year
                             academic_term
+                            capacity
                             course_template {
                                 uuid
                             }
@@ -130,6 +134,7 @@ class CourseTest extends TestCase
                             'period' => '_2',
                         ],
                     ],
+                    'capacity' => $capacity = 1,
                 ],
             ])
             ->assertOk()
@@ -144,6 +149,7 @@ class CourseTest extends TestCase
                             'academic_year' => $year,
                             'academic_term' => $term,
                             'course_times' => $course_times,
+                            'capacity' => $capacity,
                         ],
                     ],
                 ],

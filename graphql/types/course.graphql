@@ -5,6 +5,7 @@ type Course @modelClass(class: "Course") {
     academic_term: AcademicTerm!
     course_template: CourseTemplate! @belongsTo(relation: "course_template")
     course_times: [CourseTime!]! @hasMany(relation: "course_times")
+    capacity: Int!
     teachers: [Teacher!]!
         @belongsToMany(relation: "teachers", type: "paginator")
     students: [Student!]!
