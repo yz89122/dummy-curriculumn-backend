@@ -1,4 +1,4 @@
-type CourseTemplateOps {
+type CourseTemplateResource {
     create(course_template: CourseTemplateInput!): CourseTemplate!
     update(
         uuid: String!
@@ -8,7 +8,7 @@ type CourseTemplateOps {
 }
 
 extend type Mutation {
-    course_template: CourseTemplateOps
+    course_template: CourseTemplateResource
         @field(resolver: "App\\GraphQL\\Mutations\\CourseTemplateMutator")
         @middleware(checks: ["auth:api", "permission:administrator"])
 }

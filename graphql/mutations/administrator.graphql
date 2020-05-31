@@ -1,11 +1,11 @@
-type AdministratorOps {
+type AdministratorResource {
     create(administrator: AdministratorInput!): Administrator!
     update(uuid: String!, administrator: AdministratorInput!): Administrator!
     delete(uuid: String!): Void
 }
 
 extend type Mutation {
-    administrator: AdministratorOps
+    administrator: AdministratorResource
         @field(resolver: "App\\GraphQL\\Mutations\\AdministratorMutator")
         @middleware(checks: ["auth:api", "permission:administrator"])
 }

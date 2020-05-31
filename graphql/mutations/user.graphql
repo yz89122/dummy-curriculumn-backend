@@ -1,11 +1,11 @@
-type UserOps {
+type UserResource {
     create(user: UserInput!): User!
     update(uuid: String!, user: UserInput!): User!
     delete(uuid: String!): Void
 }
 
 extend type Mutation {
-    user: UserOps
+    user: UserResource
         @field(resolver: "App\\GraphQL\\Mutations\\UserMutator")
         @middleware(checks: ["auth:api", "permission:administrator"])
 }

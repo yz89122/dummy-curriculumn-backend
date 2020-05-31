@@ -1,11 +1,11 @@
-type TeacherOps {
+type TeacherResource {
     create(teacher: TeacherInput!): Teacher!
     update(uuid: String!, teacher: TeacherInput!): Teacher!
     delete(uuid: String!): Void
 }
 
 extend type Mutation {
-    teacher: TeacherOps
+    teacher: TeacherResource
         @field(resolver: "App\\GraphQL\\Mutations\\TeacherMutator")
         @middleware(checks: ["auth:api", "permission:administrator"])
 }

@@ -1,11 +1,11 @@
-type DepartmentOps {
+type DepartmentResource {
     create(department: DepartmentInput!): Department!
     update(uuid: String!, department: DepartmentInput!): Department!
     delete(uuid: String!): Void
 }
 
 extend type Mutation {
-    department: DepartmentOps
+    department: DepartmentResource
         @field(resolver: "App\\GraphQL\\Mutations\\DepartmentMutator")
         @middleware(checks: ["auth:api", "permission:administrator"])
 }

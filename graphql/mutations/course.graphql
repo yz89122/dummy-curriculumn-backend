@@ -1,11 +1,11 @@
-type CourseOps {
+type CourseResource {
     create(course: CourseInput!): Course!
     update(uuid: String!, course: CourseInput!): Course!
     delete(uuid: String!): Void
 }
 
 extend type Mutation {
-    course: CourseOps
+    course: CourseResource
         @field(resolver: "App\\GraphQL\\Mutations\\CourseMutator")
         @middleware(checks: ["auth:api", "permission:administrator"])
 }

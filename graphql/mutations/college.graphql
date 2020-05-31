@@ -1,11 +1,11 @@
-type CollegeOps {
+type CollegeResource {
     create(college: CollegeInput!): College!
     update(uuid: String!, college: CollegeInput!): College!
     delete(uuid: String!): Void
 }
 
 extend type Mutation {
-    college: CollegeOps
+    college: CollegeResource
         @field(resolver: "App\\GraphQL\\Mutations\\CollegeMutator")
         @middleware(checks: ["auth:api", "permission:administrator"])
 }
