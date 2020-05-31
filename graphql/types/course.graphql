@@ -10,6 +10,7 @@ type Course @modelClass(class: "Course") {
         @belongsToMany(relation: "teachers", type: "paginator")
     students: [Student!]!
         @belongsToMany(relation: "students", type: "paginator")
+        @middleware(checks: ["auth:api", "permission:teacher,administrator"])
     created_at: DateTimeTz
     updated_at: DateTimeTz
     deleted_at: DateTimeTz
